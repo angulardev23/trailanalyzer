@@ -17,15 +17,18 @@ namespace Startup
         {
             var settings = new Settings();
             services.AddOptions();
+
+            //bind configuration
             services.Configure<GpxConfig>(p =>
                 settings.Config.GetSection("ApplicationSettings").GetSection("Trail").Bind(p));
 
+            //register services
             var builder = new ContainerBuilder();
             builder.RegisterType<DistanceCounter>().As<IDistanceCounter>();
             builder.RegisterType<GpxService>().As<IGpxService>();
-            //builder.RegisterType<JobService>().As<IJobService>();
-            //builder.RegisterType<EmailService>().As<IEmailService>();
-            //builder.RegisterType<EmailSender>().As<IEmailSender>();
+            builder.RegisterType<ElevetionCounter>().As<IElevationCounter>();
+            builder.RegisterType<SpeedCounter>().As<ISpeedCounter>();
+            builder.RegisterType<TimeCounter>().As<ITimeCounter>();
 
 
             builder.Populate(services);

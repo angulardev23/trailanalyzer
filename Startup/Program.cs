@@ -11,7 +11,11 @@ namespace Startup
             var services = new ServiceCollection();
             var serviceProvider = ContainerConfig.ConfigureContainers(services);
 
+            //init services instances
             var _distanceCounter = serviceProvider.GetService<IDistanceCounter>();
+            var _elevationCounter = serviceProvider.GetService<IElevationCounter>();
+            var _speedCounter = serviceProvider.GetService<ISpeedCounter>();
+            var _timeCounter = serviceProvider.GetService<ITimeCounter>();
             var _gpxService = serviceProvider.GetService<IGpxService>();
 
             var trail = _gpxService.CreateTrail(_gpxService.GetTrailBody());
