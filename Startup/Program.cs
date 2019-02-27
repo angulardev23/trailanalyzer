@@ -26,6 +26,16 @@ namespace Startup
             var descentDistance = _distanceCounter.DescentDistance(trail);
             var flatDistance = _distanceCounter.FlatDistance(trail);
 
+            //speed counting
+            var averageClimbingSpeed = _speedCounter.AverageClimbingSpeed(trail);
+            var averageDescentSpeed = _speedCounter.AverageDescentSpeed(trail);
+            var averageFlatSpeed = _speedCounter.AverageFlatSpeed(trail);
+            var averageSpeed = _speedCounter.AverageSpeed(trail);
+            var maxiumumSpeed = _speedCounter.MaxiumumSpeed(trail);
+            var minimumSpeed = _speedCounter.MinimumSpeed(trail);
+
+            //Elevation counting
+            //_elevationCounter.AverageElevation(tra)
         }
     }
 }

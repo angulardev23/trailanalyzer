@@ -9,7 +9,7 @@ namespace TrailAnalyzer.Services
         {
             return trail.Points
                 .Select((point, i) => PointService.DistanceBeetwenPoints(point, GetNext(trail.Points, point)) /
-                                  (GetNext(trail.Points, point).Time - point.Time).TotalSeconds)
+                                  ((GetNext(trail.Points, point) != null ? GetNext(trail.Points, point).Time : point.Time.AddSeconds(1)) - point.Time).TotalSeconds)
                 .Min();
         }
 
@@ -17,7 +17,7 @@ namespace TrailAnalyzer.Services
         {
             return trail.Points
                 .Select((point, i) => PointService.DistanceBeetwenPoints(point, GetNext(trail.Points, point)) /
-                                  (GetNext(trail.Points, point).Time - point.Time).TotalSeconds)
+                                  ((GetNext(trail.Points, point) != null ? GetNext(trail.Points, point).Time : point.Time.AddSeconds(1)) - point.Time).TotalSeconds)
                 .Max();
         }
 
@@ -25,16 +25,16 @@ namespace TrailAnalyzer.Services
         {
             return trail.Points
                 .Select((point, i) => PointService.DistanceBeetwenPoints(point, GetNext(trail.Points, point)) /
-                                  (GetNext(trail.Points, point).Time - point.Time).TotalSeconds)
+                                  ((GetNext(trail.Points, point) != null ? GetNext(trail.Points, point).Time : point.Time.AddSeconds(1)) - point.Time).TotalSeconds)
                 .Average();
         }
 
         public double AverageClimbingSpeed(Trail trail)
         {
             return trail.Points
-                .Select((point, i) => (GetNext(trail.Points, point).Elevation - point.Elevation > 0 ?
+                .Select((point, i) => (GetNext(trail.Points, point)?.Elevation - point.Elevation > 0 ?
                                       PointService.DistanceBeetwenPoints(point, GetNext(trail.Points, point)) : 0) /
-                                  (GetNext(trail.Points, point).Time - point.Time).TotalSeconds)
+                                  ((GetNext(trail.Points, point) != null ? GetNext(trail.Points, point).Time : point.Time.AddSeconds(1)) - point.Time).TotalSeconds)
                 .Where(s => s != 0)
                 .Average();
         }
@@ -42,9 +42,9 @@ namespace TrailAnalyzer.Services
         public double AverageDescentSpeed(Trail trail)
         {
             return trail.Points
-                .Select((point, i) => (point.Elevation - GetNext(trail.Points, point).Elevation > 0 ?
+                .Select((point, i) => (point.Elevation - GetNext(trail.Points, point)?.Elevation > 0 ?
                                       PointService.DistanceBeetwenPoints(point, GetNext(trail.Points, point)) : 0) /
-                                  (GetNext(trail.Points, point).Time - point.Time).TotalSeconds)
+                                  ((GetNext(trail.Points, point) != null ? GetNext(trail.Points, point).Time : point.Time.AddSeconds(1)) - point.Time).TotalSeconds)
                 .Where(s => s != 0)
                 .Average();
         }
@@ -52,9 +52,9 @@ namespace TrailAnalyzer.Services
         public double AverageFlatSpeed(Trail trail)
         {
             return trail.Points
-                .Select((point, i) => (point.Elevation - GetNext(trail.Points, point).Elevation == 0 ?
+                .Select((point, i) => (point.Elevation - GetNext(trail.Points, point)?.Elevation == 0 ?
                                       PointService.DistanceBeetwenPoints(point, GetNext(trail.Points, point)) : 0) /
-                                  (GetNext(trail.Points, point).Time - point.Time).TotalSeconds)
+                                  ((GetNext(trail.Points, point) != null ? GetNext(trail.Points, point).Time : point.Time.AddSeconds(1)) - point.Time).TotalSeconds)
                 .Where(s => s != 0)
                 .Average();
         }
